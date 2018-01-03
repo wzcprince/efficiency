@@ -12,13 +12,13 @@ os.chdir(root_dir)
 
 
 # https://docs.python.org/2.7/library/subprocess.html#subprocess.Popen.stdin
-ptee = subprocess.Popen("tee " + __file__ + ".txt", stdin=subprocess.PIPE)
+ptee = subprocess.Popen("tee ../" + os.path.basename(__file__) + ".txt", stdin=subprocess.PIPE)
 sys.stdout = ptee.stdin
 
 
 # python - Difference between __file__ and sys.argv[0] - Stack Overflow
 # https://stackoverflow.com/questions/5851588/difference-between-file-and-sys-argv0
-print __file__
+print os.path.basename(__file__)
 print sys.argv[0]
 
 readonly = True
@@ -152,52 +152,7 @@ def replace_things(item_name, item_path, content):
 
     return need_write_back, content
 
-    
-def replace_simple_things(item_name, item_path, content):
-    global files_count
-    need_write_back = False
-            
-    if -1 != content.find("__read_mostly"):
-        files_count += 1
-        content = content.replace("__read_mostly", "")
-
-        need_write_back = True
-
-    if -1 != content.find("____cacheline_aligned;"):
-        files_count += 1
-        content = content.replace("____cacheline_aligned", "")
-
-        need_write_back = True
-    if -1 != content.find("____cacheline_aligned_in_smp;"):
-        files_count += 1
-        content = content.replace("____cacheline_aligned_in_smp", "")
-
-        need_write_back = True
-    if item_name == "current.h": # 要在 source insight 里自定义 conditional parsing
-        print(item_name)
-        if -1 != item_path.find("asm-generic"):
-            need_write_back = True
-            content = content.replace("#define current get_current()", 
-        """
-#ifdef WZC_READ_CODE
-    struct task_struct *current;
-#else
-    #define current get_current()
-#endif
-""")
-        else:
-            need_write_back = True
-            content = content.replace("#define current get_current()", 
-        """
-#ifdef WZC_READ_CODE
-#else
-    #define current get_current()
-#endif
-""")
-        
-    return need_write_back, content
-
-reg_LIST_HEAD = re.compile(r".*static LIST_HEAD\((.*)\).*")
+reg_LIST_HEAD = re.compile(r"^.*static LIST_HEAD\((.*)\).*", re.MULTILINE)
 def replace_LIST_HEAD(content):
     need_write_back = False
     start_pos = 0
