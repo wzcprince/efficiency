@@ -123,7 +123,6 @@ things = r"""
     \s__aligned\(\d+\)
 """
 
-reg_list1 = []
 
 def replace_things(item_name, item_path, content):
     #print item_name

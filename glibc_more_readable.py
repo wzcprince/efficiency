@@ -48,6 +48,37 @@ def replace_LIST_HEAD(content):
             match1 = reg_LIST_HEAD.search(content, start_pos)
     return need_write_back, content
 
+things = r"""
+    __attribute_used__
+"""
+
+
+def replace_things(item_name, item_path, content):
+    #print item_name
+    need_write_back = False
+    start_pos = 0
+    
+    for str1 in things.split("\n"):
+        str1 = str1.strip()
+        if str1:
+            reg1 = re.compile(str1)
+
+            match1 = reg1.search(content, start_pos)
+            while match1:
+            
+                if content[match1.start()-2:match1.start()] != "/*":
+                    # 已经注释过的不再重复注释
+                    content = content[:match1.start()] + "/*" + match1.group(0) + "*/" + content[match1.end():] 
+                    need_write_back = True
+                start_pos = match1.end()
+                
+                print item_name, start_pos, content[match1.start()-2:match1.start()], match1.group(0)
+                
+                
+                match1 = reg1.search(content, start_pos)
+                #need_write_back = False
+
+    return need_write_back, content
 
 dirs_to_delete = r"""
     ./rt
@@ -145,6 +176,9 @@ def iterate_files(dir1):
             need, content = replace_LIST_HEAD(content)
             need_write_back |= need
 
+            if 1: # 替换 
+                need, content = replace_things(item_name, item_path, content)
+                need_write_back |= need
 
             if need_write_back:
                 f1 = open(item_path, "wt")
