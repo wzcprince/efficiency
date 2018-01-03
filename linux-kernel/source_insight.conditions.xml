@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SourceInsightParseConditions
+	AppVer="4.00.0087"
+	AppVerMinReader="4.00.0019"
+	>
+	<ParseConditions>
+		<Defines>
+			<define id="__CHECKER__" value="0" />
+			<define id="CONFIG_CGROUPS" value="1" />
+			<define id="CONFIG_IP_MULTIPLE_TABLES" value="0" />
+			<define id="CONFIG_KERNFS" value="1" />
+			<define id="CONFIG_MMU" value="1" />
+			<define id="CONFIG_MODULES" value="1" />
+			<define id="CONFIG_NETFILTER" value="1" />
+			<define id="CONFIG_NUMA" value="0" />
+			<define id="CONFIG_PREEMPT" value="1" />
+			<define id="CONFIG_PROC_FS" value="1" />
+			<define id="CONFIG_RPS" value="1" />
+			<define id="CONFIG_SHMEM" value="1" />
+			<define id="CONFIG_SMP" value="1" />
+			<define id="CONFIG_SYSCTL" value="1" />
+			<define id="CONFIG_SYSFS" value="1" />
+			<define id="CONFIG_TRACE_IRQFLAGS" value="0" />
+			<define id="CONFIG_TRACING" value="0" />
+			<define id="CONFIG_X86_32" value="0" />
+			<define id="CONFIG_X86_64" value="1" />
+			<define id="MAX_NUMNODES" value="1" />
+			<define id="WZC_READ_CODE" value="1" />
+		</Defines>
+	</ParseConditions>
+</SourceInsightParseConditions>
