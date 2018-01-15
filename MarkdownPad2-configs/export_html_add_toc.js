@@ -1,5 +1,6 @@
 
-< script type = "text/javascript" > document.addEventListener("DOMContentLoaded", function()
+<script type = "text/javascript" > 
+document.addEventListener("DOMContentLoaded", function()
 {
 	var div1			= document.createElement("div");
 	div1.style.cssText	= "clear:both";
@@ -28,10 +29,10 @@
 	ele_span.appendChild(ele_a);
 	ele_p.appendChild(ele_span);
 
-	var ele_ol			= document.createElement("ol");
-	ele_ol.style.cssText = "display:none;margin-left:14px;padding-left:14px;line-height:160%;";
-	ele_ol.setAttribute("id", "outline_ol");
-	outline.appendChild(ele_ol);
+	var ul_top			= document.createElement("ul"); // 顶级
+	ul_top.style.cssText = "display:none;margin-left:14px;padding-left:14px;line-height:160%;";
+	ul_top.setAttribute("id", "outline_ol");
+	outline.appendChild(ul_top);
 	var div1			= document.createElement("div");
 	div1.style.cssText	= "clear:both";
 
@@ -43,120 +44,70 @@
 	if (headers.length < 2)
 		return;
 
-	// -----
-	var old_h			= 0, ol_cnt = 0;
 
-	// -----
+	var old_h = 1;
+
+	var ul_array = new Array(7);
+	var ul_current = null;
+	ul_array[1] = ul_top;
+
 	for (var i = 0; i < headers.length; i++)
 	{
-
-		var ele_ols 		= null;
-
 		// get H* and prepare for the ordered list 
-		var header			= headers[i];
+		var header = headers[i];
 
 		//header.setAttribute("id", "t" + i + header.tagName);
 		header.setAttribute("id", header.textContent);
-		var h				= parseInt(header.tagName.substr(1), 10);
+		var h = parseInt(header.tagName.substr(1), 10);
 
-		// -----
-		if (!old_h)
+		// assert  1<=h && h <= 6
+		
+		ul_current = 0;
+		if (h < old_h)
 		{
-			old_h				= h;
-		}
-
-		if (h > old_h)
-		{
-			ele_ols 			= document.createElement("ol");
-			var ele_Current 	= ele_ol;
-
-			if (ele_Current && ol_cnt > 0)
+			for (var j = h+1; j <= 6; j++)
 			{
-				var temp			= ol_cnt;
-
-				while (temp > 0)
-				{
-					ele_Current 		= ele_Current.lastChild;
-					temp--;
-				}
+				ul_array[j] = null;
 			}
-
-			ele_Current.lastChild.appendChild(ele_ols);
-			ol_cnt++;
+			ul_current = h;
 		}
-		else if (h < old_h && ol_cnt > 0)
+		else if (h == old_h)
 		{
-			if (h == 1)
+			ul_current = h;
+		}
+		else if (h > old_h)
+		{
+			ul_current = old_h + 1; /* 是old_h + 1的原因： h如果是old_h + 2 或者 + 3时，
+										我们依然按 + 1来做 */
+		}
+		
+		if (ul_array[ul_current] == null)
+		{
+			ul_array[ul_current] = document.createElement("ul");
+			if (h>1)
 			{
-				while (ol_cnt > 0)
-				{
-					ol_cnt--;
-				}
-			}
-			else 
-			{
-				ele_ols 			= document.createElement("ol");
-				var ele_Current 	= ele_ol;
-
-				if (ele_Current && ol_cnt > 0)
-				{
-					var temp			= ol_cnt;
-
-					while (temp > 1)
-					{
-						ele_Current 		= ele_Current.lastChild;
-						temp--;
-					}
-				}
-
-				ele_Current.appendChild(ele_ols);
-
-				ol_cnt--;
+				ul_array[h-1].lastChild.appendChild(ul_array[ul_current]);
 			}
 		}
 
-		if (h == 1)
-		{
-			while (ol_cnt > 0)
-			{
-				ol_cnt--;
-			}
-		}
-
-		old_h				= h;
-
-		// -----
-		if (ele_ols)
-		{
-			ele_li				= document.createElement("li")
-			ele_ols.appendChild(ele_li);
-		}
-		else 
-		{
-			ele_li				= document.createElement("li")
-			ele_ol.appendChild(ele_li);
-		}
-
-		var a				= document.createElement("a");
+		var elem_li = document.createElement("li");
+		ul_array[ul_current].appendChild(elem_li);
+		
+		var a = document.createElement("a");
 
 		// set href for the TOC item 
 		//a.setAttribute("href", "#t" + i + header.tagName);
 		a.setAttribute("href", "#" + header.textContent);
 
 		// TOC item text
-		a.innerHTML 		= header.textContent;
+		a.innerHTML  = "h" + h + header.textContent;
 
 
-		ele_li.appendChild(a);
+		elem_li.appendChild(a);
+
+		old_h = h;
 	}
 
-	// -----
-	while (ol_cnt > 0)
-	{
-		ol_cnt--;
-	}
-
-	// -----
 }
 
 
@@ -188,4 +139,4 @@ function openct(e)
 }
 
 
-< / script >
+</script>
