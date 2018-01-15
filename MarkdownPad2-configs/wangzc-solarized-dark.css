@@ -67,27 +67,27 @@ h6 {
   margin-bottom: 20px;
 }
 h1 {
-  font-size: 24.624px;
-  line-height: 29.548799999999996px;
+  font-size: 65.00px;
+  line-height: 65.548799999999996px;
 }
 h2 {
-  font-size: 24.624px;
-  line-height: 29.548799999999996px;
+  font-size: 50.00px;
+  line-height: 50.548799999999996px;
 }
 h3 {
-  font-size: 23.44px;
-  line-height: 28.128px;
+  font-size: 35.00px;
+  line-height: 35.128px;
 }
 h4 {
-  font-size: 22.16px;
-  line-height: 26.592px;
+  font-size: 20.16px;
+  line-height: 28.592px;
 }
 h5 {
-  font-size: 22.16px;
+  font-size: 20.16px;
   line-height: 26.592px;
 }
 h6 {
-  font-size: 22.16px;
+  font-size: 20.16px;
   line-height: 26.592px;
 }
 img {
@@ -118,16 +118,28 @@ pre {
 h1 {
   text-transform: uppercase;
   font-weight: bold;
-  border-bottom: 1px solid;
+  border-top: 3px solid;
+  
 }
 h2 {
-  border-bottom: 1px solid;
 }
 h3,
 h4,
 h5,
 h6 {
   border-bottom: none;
+}
+h1:before {
+	content:"¡ñ";
+}
+h2:before {
+	content:"?";
+}
+h3:before {
+	content:"¡ø";
+}
+h4:before {
+	content:"¡ö";
 }
 html * {
   color: #839496;
